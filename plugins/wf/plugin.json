@@ -1,0 +1,17 @@
+{
+  "name": "wf",
+  "version": "1.0.0",
+  "description": "Personal workflow commands and agents for PR management and code review",
+  "commands": {
+    "commit": "commands/commit.md",
+    "pr": "commands/pr.md",
+    "pr-simple": "commands/pr-simple.md",
+    "review-pr": "commands/review-pr.md",
+    "watch-pr": "commands/watch-pr.md",
+    "current-pr": "commands/current-pr.md"
+  },
+  "agents": {
+    "code-reviewer": "agents/code-reviewer.md",
+    "comment-cleaner": "agents/comment-cleaner.md"
+  }
+}

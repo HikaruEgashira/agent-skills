@@ -1,0 +1,15 @@
+{
+  "name": "hikae-marketplace",
+  "description": "Personal Claude Code plugins for PR workflow and code quality",
+  "version": "1.0.0",
+  "owner": {
+    "name": "Hikaru Egashira"
+  },
+  "plugins": [
+    {
+      "name": "wf",
+      "source": "./plugins/wf",
+      "description": "PR management commands and code review agents"
+    }
+  ]
+}
