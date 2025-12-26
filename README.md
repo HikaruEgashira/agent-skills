@@ -1,4 +1,4 @@
-# Hikae Marketplace
+### Hikae Marketplace
 
 Personal Claude Code plugin marketplace for streamlined PR workflows and code quality management.
 
