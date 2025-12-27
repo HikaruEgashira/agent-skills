@@ -6,20 +6,6 @@
     "name": "HikaruEgashira"
   },
   "license": "MIT",
-  "keywords": ["workflow", "pr", "review", "commit"],
-  "commands": [
-    "./commands/commit.md",
-    "./commands/pr.md",
-    "./commands/pr-simple.md",
-    "./commands/review-pr.md",
-    "./commands/watch-pr.md",
-    "./commands/current-pr.md",
-    "./commands/push.md",
-    "./commands/rabbit.md",
-    "./commands/yolo.md"
-  ],
-  "agents": [
-    "./agents/code-reviewer.md",
-    "./agents/comment-cleaner.md"
-  ]
+  "agents": "./agents/",
+  "commands": "./commands/"
 }
