@@ -1,5 +1,5 @@
 ---
-name: reveiw-pr
+name: review-pr
 description: PRをペアプロ形式でレビュー
 argument-hint: [url]
 model: haiku
