@@ -5,9 +5,9 @@ Personal Claude Code plugin marketplace for streamlined PR workflows and code qu
 ### Installation
 
 ```bash
-/plugin marketplace add HikaruEgashira/hikae-claude-code-marketplace
-/plugin install wf
-/plugin install architect
+claude plugin marketplace add HikaruEgashira/hikae-claude-code-marketplace
+claude plugin install wf
+claude plugin install architect
 ```
 
 ### Examples
