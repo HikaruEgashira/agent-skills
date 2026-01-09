@@ -8,12 +8,12 @@
   "plugins": [
     {
       "name": "wf",
-      "source": "./plugins/wf",
+      "source": "./wf",
       "description": "PR management commands and code review agents"
     },
     {
       "name": "architect",
-      "source": "./plugins/architect",
+      "source": "./architect",
       "description": "My project structure"
     }
   ]
