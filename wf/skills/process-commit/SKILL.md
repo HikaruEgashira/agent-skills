@@ -1,6 +1,6 @@
 ---
-name: commit-action
-description: PRを作成する前に自律的に呼び出す必要があるスキルです。
+name: process-commit
+description: PRを作成する前の分割commitが必要な時に自律的に呼び出す必要があるスキルです。
 model: haiku
 ---
 

@@ -8,7 +8,8 @@ model: opus
 PR $1 について理解しPR authorの身になってペアプロセッションを開始します。
 レビュワーにわかりやすいように解説をしてください。
 
-gh pr checkoutを実行して現在のブランチに切り替えるもしも異なるリポジトリにいる場合は ~/ghq/githtub.com/{owner}/{repo} に移動してください。
+"gh wt co $1" で対象のworktreeに切り替えます。
+もしも異なるリポジトリにいる場合は先に ~/ghq/githtub.com/{owner}/{repo} に移動してください。
 
 parallelに以下のsubagentsを実行します
 - code-review subagent を使用してコードレビューを実行します。
