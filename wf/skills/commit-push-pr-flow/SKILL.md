@@ -10,3 +10,4 @@ Commit, push, and open a pr
 - following pr template
 - description in japanese
 - 提出後は gh pr view --web で差分を共有して完了してください
+- 完了後 review-flow を呼び出します

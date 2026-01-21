@@ -4,7 +4,7 @@
 
 | Skill | When to use | Behavior |
 |-------|-------------| -------- |
-| `assign` | When context is missing | Load context from PR |
+| `worktree` | After Planning | Create Worktree |
 | `commit-push-pr-flow` | After task completion | Create PR |
 | `review-flow` | After PR creation | Review PR |
 
