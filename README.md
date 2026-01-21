@@ -22,3 +22,9 @@ claude plugin install wf
 | `assign` | When context is missing | Load context from PR |
 | `commit-push-pr-flow` | After task completion | Create PR |
 | `review-flow` | After PR creation | Review PR |
+
+#### Validation
+
+```bash
+uv run --with pyyaml scripts/validate_skills.py
+```
