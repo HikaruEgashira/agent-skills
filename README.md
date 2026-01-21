@@ -1,9 +1,9 @@
-### Hikae Marketplace
+### Claude Code Plugins
 
 #### Installation
 
 ```bash
-claude plugin marketplace add HikaruEgashira/hikae-claude-code-marketplace
+claude plugin marketplace add HikaruEgashira/claude-code
 claude plugin install wf
 ```
 
