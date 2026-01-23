@@ -3,7 +3,7 @@ name: risk-assessment
 description: |
   設計・計画段階で自律的にリスクアセスメントを行うメタスキルです。
   行動する前に自問自答し、浅い解決策を避け、根本的な問題を特定します。
-  Trigger: 設計, 計画, 実装前, アーキテクチャ決定
+  Trigger: 設計, 計画, 実装前, アーキテクチャ決定, リスク, 懸念
 user-invocable: false
 ---
 
