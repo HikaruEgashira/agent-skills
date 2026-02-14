@@ -18,6 +18,10 @@ _PROXY_BLOCK_INDICATORS = [
     "Failed reading proxy response",
     "Operation timed out",
     "Proxy CONNECT aborted",
+    "context deadline exceeded",
+    "proxyconnect tcp",
+    "blocked-by-allowlist",
+    "CONNECT tunnel failed",
 ]
 
 _DOMAIN_EXTRACTORS = [
