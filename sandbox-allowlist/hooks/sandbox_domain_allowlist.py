@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Sandbox Domain Auto-Allowlist Hook (PostToolUse only)
-=====================================================
-Detect proxy timeout patterns in Bash command output,
-extract blocked domains, and add them to allowedDomains.
+Sandbox Domain Auto-Allowlist Hook (PostToolUse / PostToolUseFailure)
+=====================================================================
+Detect proxy timeout patterns in Bash command output and extract
+blocked domains. Reports them via stderr so Claude can add them
+to settings.json allowedDomains.
 """
 
 import json
@@ -45,27 +46,12 @@ def extract_domains(text: str) -> set[str]:
     return domains
 
 
-def load_settings() -> dict:
-    if SETTINGS_PATH.exists():
-        return json.loads(SETTINGS_PATH.read_text())
-    return {}
-
-
-def save_settings(settings: dict):
-    SETTINGS_PATH.write_text(json.dumps(settings, indent=2, ensure_ascii=False) + "\n")
-
-
-def ensure_allowed(domains: set[str]) -> set[str]:
-    settings = load_settings()
-    sandbox = settings.setdefault("sandbox", {})
-    network = sandbox.setdefault("network", {})
-    allowed = set(network.get("allowedDomains", []))
-    new_domains = domains - allowed
-    if new_domains:
-        allowed.update(new_domains)
-        network["allowedDomains"] = sorted(allowed)
-        save_settings(settings)
-    return new_domains
+def get_allowed_domains() -> set[str]:
+    try:
+        settings = json.loads(SETTINGS_PATH.read_text())
+        return set(settings.get("sandbox", {}).get("network", {}).get("allowedDomains", []))
+    except Exception:
+        return set()
 
 
 def main():
@@ -89,11 +75,13 @@ def main():
     if not domains:
         sys.exit(0)
 
-    added = ensure_allowed(domains)
-    if added:
-        names = ", ".join(sorted(added))
+    already_allowed = get_allowed_domains()
+    new_domains = domains - already_allowed
+    if new_domains:
+        names = ", ".join(sorted(new_domains))
         print(
-            f"sandbox network block を検出。allowedDomains に {names} を追加しました。再実行してください。",
+            f"sandbox network block を検出しました。"
+            f"以下のドメインを settings.json の sandbox.network.allowedDomains に追加してください: {names}",
             file=sys.stderr,
         )
 
