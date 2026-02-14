@@ -1,0 +1,8 @@
+{
+  "name": "sandbox-allowlist",
+  "version": "1.0.0",
+  "description": "Auto-detect sandbox-blocked domains and add them to allowedDomains",
+  "author": {
+    "name": "HikaruEgashira"
+  }
+}

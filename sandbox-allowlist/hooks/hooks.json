@@ -1,0 +1,27 @@
+{
+  "description": "Auto-detect sandbox-blocked domains from command strings (PreToolUse) and proxy timeout output (PostToolUse), then add to allowedDomains",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/sandbox_domain_allowlist.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/sandbox_domain_allowlist.py"
+          }
+        ]
+      }
+    ]
+  }
+}
