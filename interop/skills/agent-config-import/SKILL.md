@@ -15,12 +15,58 @@ Codex と Claude Code の設定を、意味を壊さずに import する。
 ## 原則
 
 - 最初は必ず dry-run。ファイル編集前に差分、リスク、未対応項目を出す。
+- auto mode / permission / approval / sandbox の仕様は変わりやすい。変換前に必ず公式 URL を確認し、確認した URL と日付を dry-run に書く。
 - secret/API key/token の値は出力しない。環境変数名と参照方式だけ扱う。
 - 既存設定を source of truth として尊重し、上書きではなく merge 案を出す。
 - apply する場合は、対象ファイルごとに timestamp backup を作ってから編集する。
 - permissions / sandbox / approval / hooks は等価ではない。雑に 1 フィールドへ潰さない。
 - MCP は最優先で import する。多くの設定価値は MCP に集中している。
 - hooks は移植不能または skill/plugin 化候補として扱い、暗黙に実行可能化しない。
+
+## 最新仕様の確認 URL
+
+変換ロジックを決める前に、必要な範囲だけ開いて確認する。特に permissions / auto mode / sandbox は記憶で判断しない。
+
+### Codex
+
+- Config reference: https://developers.openai.com/codex/config-reference
+- Config basics: https://developers.openai.com/codex/config-basic
+- Advanced config: https://developers.openai.com/codex/config-advanced
+- Permissions: https://developers.openai.com/codex/permissions
+- Agent approvals & security: https://developers.openai.com/codex/agent-approvals-security
+- CLI command line options: https://developers.openai.com/codex/cli/reference
+- MCP: https://developers.openai.com/codex/mcp
+- Skills: https://developers.openai.com/codex/skills
+- Plugins: https://developers.openai.com/codex/plugins
+- Changelog: https://developers.openai.com/codex/changelog
+
+### Claude Code
+
+- Docs index: https://code.claude.com/docs/llms.txt
+- Settings: https://code.claude.com/docs/en/settings
+- Permissions: https://code.claude.com/docs/en/permissions
+- Security: https://code.claude.com/docs/en/security
+- Hooks reference: https://code.claude.com/docs/en/hooks
+- CLI reference: https://code.claude.com/docs/en/cli-reference
+- Plugins reference: https://code.claude.com/docs/en/plugins-reference
+- Agent SDK permissions: https://code.claude.com/docs/en/agent-sdk/permissions
+- What's new: https://code.claude.com/docs/en/whats-new
+
+### Cross-tool references
+
+- AGENTS.md spec: https://agents.md/
+- Agent Skills: https://agentskills.io/
+- skills.sh registry: https://skills.sh/
+- Palot config converter reference implementation: https://github.com/ItsWendell/palot/tree/main/packages/configconv
+
+## Permission / auto mode 方針
+
+- Codex は approval と sandbox が分かれている前提で確認する。例: `approval_policy` と `sandbox_mode` は独立に扱い、UI 名の "Auto" / "Full Auto" だけで判断しない。
+- Claude Code は permission mode と rules が混ざる。`default`, `plan`, `acceptEdits`, `bypassPermissions` の現在仕様を docs で確認する。
+- Claude `acceptEdits` は Codex の「編集は許可、コマンドは確認」に近いが等価とは限らない。必ず推測として出す。
+- Claude `bypassPermissions` と Codex の `approval_policy = "never"` / `sandbox_mode = "danger-full-access"` は同一視しない。sandbox の有無と network / writable roots を分けて評価する。
+- `danger-full-access`, `bypassPermissions`, destructive command allow は apply しない。dry-run では強い警告と手動確認項目にする。
+- Codex の granular approval / exec policy / runtime permission request が存在する場合は、現在の config reference を優先して mapping を更新する。
 
 ## 入力探索
 
@@ -167,6 +213,11 @@ Dry-run では必ずこの順番で出す。
 Source:
 Target:
 Mode: dry-run
+
+## Specs Checked
+
+| Product | URL | Checked at | Notes |
+|---------|-----|------------|-------|
 
 ## Read Files
 
