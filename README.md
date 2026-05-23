@@ -20,7 +20,7 @@
 ```bash
 claude plugin marketplace add HikaruEgashira/agent-skills
 claude plugin install wf
-claude plugin install interop
+claude plugin install agentops
 ```
 
 #### For Codex
@@ -32,5 +32,5 @@ Installable Codex plugins:
 
 - `wf`: workflow skills for worktree, commit, PR, and review flow
 - `architect`: PR takeover and structure-refactoring skills converted from Claude commands
-- `interop`: Codex / Claude Code configuration migration planning
+- `agentops`: Codex / Claude Code configuration migration planning
 - `meta`: risk assessment, incident handling, and gap-analysis skills

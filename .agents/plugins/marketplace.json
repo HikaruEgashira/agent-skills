@@ -29,10 +29,10 @@
       "category": "Coding"
     },
     {
-      "name": "interop",
+      "name": "agentops",
       "source": {
         "source": "local",
-        "path": "./interop"
+        "path": "./agentops"
       },
       "policy": {
         "installation": "AVAILABLE",

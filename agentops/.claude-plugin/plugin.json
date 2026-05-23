@@ -1,5 +1,5 @@
 {
-  "name": "interop",
+  "name": "agentops",
   "version": "1.0.0",
   "description": "Import and migrate agent configuration between Codex and Claude Code",
   "author": {
