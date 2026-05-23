@@ -1,0 +1,38 @@
+{
+  "name": "wf",
+  "version": "2.0.0",
+  "description": "Workflow automation skills for Git and GitHub operations.",
+  "author": {
+    "name": "HikaruEgashira",
+    "url": "https://github.com/HikaruEgashira"
+  },
+  "homepage": "https://github.com/HikaruEgashira/agent-skills/tree/main/wf",
+  "repository": "https://github.com/HikaruEgashira/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "github",
+    "workflow",
+    "pull-request"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workflow",
+    "shortDescription": "Worktree, commit, PR, and review flow skills",
+    "longDescription": "Workflow provides Codex skills for moving implementation work through an isolated worktree, logical commits, pull request creation, and follow-up review flow.",
+    "developerName": "HikaruEgashira",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/HikaruEgashira/agent-skills/tree/main/wf",
+    "defaultPrompt": [
+      "Start this task in a worktree",
+      "Commit and open a PR",
+      "Review this PR flow"
+    ],
+    "screenshots": []
+  }
+}

@@ -25,6 +25,11 @@
       "name": "interop",
       "source": "./interop",
       "description": "Import and migrate agent configuration between Codex and Claude Code"
+    },
+    {
+      "name": "harness",
+      "source": "./harness",
+      "description": "Team-architecture factory: turn a domain description into an agent team and the skills they use"
     }
   ]
 }

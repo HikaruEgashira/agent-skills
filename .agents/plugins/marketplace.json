@@ -1,0 +1,68 @@
+{
+  "name": "hikae-codex-marketplace",
+  "interface": {
+    "displayName": "Hikaru Egashira Agent Skills"
+  },
+  "plugins": [
+    {
+      "name": "wf",
+      "source": {
+        "source": "local",
+        "path": "./wf"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "architect",
+      "source": {
+        "source": "local",
+        "path": "./architect"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "interop",
+      "source": {
+        "source": "local",
+        "path": "./interop"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "meta",
+      "source": {
+        "source": "local",
+        "path": "./meta"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    },
+    {
+      "name": "harness",
+      "source": {
+        "source": "local",
+        "path": "./harness"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Coding"
+    }
+  ]
+}
