@@ -34,6 +34,3 @@ Installable Codex plugins:
 - `architect`: PR takeover and structure-refactoring skills converted from Claude commands
 - `interop`: Codex / Claude Code configuration migration planning
 - `meta`: risk assessment, incident handling, and gap-analysis skills
-
-`sandbox-allowlist` includes Codex metadata, but it is not listed in the Codex marketplace because
-Codex plugin validation does not accept hook declarations. It remains a Claude Code hook plugin.

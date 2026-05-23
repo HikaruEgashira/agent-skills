@@ -17,11 +17,6 @@
       "description": "My project structure"
     },
     {
-      "name": "sandbox-allowlist",
-      "source": "./sandbox-allowlist",
-      "description": "Auto-detect sandbox-blocked domains and add to allowedDomains"
-    },
-    {
       "name": "interop",
       "source": "./interop",
       "description": "Import and migrate agent configuration between Codex and Claude Code"
