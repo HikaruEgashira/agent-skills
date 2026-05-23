@@ -1,0 +1,38 @@
+{
+  "name": "interop",
+  "version": "1.0.0",
+  "description": "Import and migrate agent configuration between Codex and Claude Code.",
+  "author": {
+    "name": "HikaruEgashira",
+    "url": "https://github.com/HikaruEgashira"
+  },
+  "homepage": "https://github.com/HikaruEgashira/agent-skills/tree/main/interop",
+  "repository": "https://github.com/HikaruEgashira/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "claude-code",
+    "configuration",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Interop",
+    "shortDescription": "Plan Codex and Claude Code config migrations",
+    "longDescription": "Agent Interop provides a dry-run-first skill for comparing and migrating Codex and Claude Code settings, MCP configuration, skills, prompts, commands, and agent instructions without exposing secrets.",
+    "developerName": "HikaruEgashira",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/HikaruEgashira/agent-skills/tree/main/interop",
+    "defaultPrompt": [
+      "Plan a Codex and Claude config import",
+      "Dry-run import from Claude Code",
+      "Dry-run import from Codex"
+    ],
+    "screenshots": []
+  }
+}

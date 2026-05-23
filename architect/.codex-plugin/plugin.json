@@ -1,0 +1,37 @@
+{
+  "name": "architect",
+  "version": "2.0.0",
+  "description": "Architecture and project-structure workflow skills.",
+  "author": {
+    "name": "HikaruEgashira",
+    "url": "https://github.com/HikaruEgashira"
+  },
+  "homepage": "https://github.com/HikaruEgashira/agent-skills/tree/main/architect",
+  "repository": "https://github.com/HikaruEgashira/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "project-structure",
+    "pull-request"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Architect",
+    "shortDescription": "Current PR and restructure workflow skills",
+    "longDescription": "Architect converts the repository's Claude command workflows into Codex skills for taking over the current PR, restructuring folders, and explicitly entering a no-extra-confirmation working mode.",
+    "developerName": "HikaruEgashira",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/HikaruEgashira/agent-skills/tree/main/architect",
+    "defaultPrompt": [
+      "Take over the current PR",
+      "Simplify this folder structure",
+      "Proceed without extra confirmation"
+    ],
+    "screenshots": []
+  }
+}

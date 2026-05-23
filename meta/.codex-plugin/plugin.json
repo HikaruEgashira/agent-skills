@@ -1,0 +1,37 @@
+{
+  "name": "meta",
+  "version": "2.0.0",
+  "description": "Meta skills for risk assessment, incident handling, and gap analysis.",
+  "author": {
+    "name": "HikaruEgashira",
+    "url": "https://github.com/HikaruEgashira"
+  },
+  "homepage": "https://github.com/HikaruEgashira/agent-skills/tree/main/meta",
+  "repository": "https://github.com/HikaruEgashira/agent-skills",
+  "license": "MIT",
+  "keywords": [
+    "risk",
+    "incident",
+    "gap-analysis",
+    "planning"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Meta Engineering",
+    "shortDescription": "Risk, incident, and gap-analysis meta skills",
+    "longDescription": "Meta Engineering contains reusable thinking frameworks for design risk assessment, incident response, and gap analysis before implementation decisions become expensive.",
+    "developerName": "HikaruEgashira",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "websiteURL": "https://github.com/HikaruEgashira/agent-skills/tree/main/meta",
+    "defaultPrompt": [
+      "Assess implementation risk",
+      "Run incident analysis",
+      "Analyze this technical gap"
+    ],
+    "screenshots": []
+  }
+}
