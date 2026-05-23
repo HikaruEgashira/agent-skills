@@ -17,8 +17,8 @@
       "description": "My project structure"
     },
     {
-      "name": "interop",
-      "source": "./interop",
+      "name": "agentops",
+      "source": "./agentops",
       "description": "Import and migrate agent configuration between Codex and Claude Code"
     },
     {
