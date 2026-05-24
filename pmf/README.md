@@ -40,3 +40,7 @@ cd <監査したい repo>
 | Date | Change | Target | Reason |
 |------|--------|--------|--------|
 | 2026-05-24 | initial build | all | PMF エンジニアリング doctrine を実行可能な agent team に結晶化 |
+| 2026-05-24 | 重みの数値化 + 合成式明示 | pmf-audit | E2E 検証: 高/中 ラベルのみで合成スコアが監査者裁量でブレた |
+| 2026-05-24 | 次元の責任境界を明記 | pmf-audit | E2E 検証: scope→FP が Trust/Wedge で二重計上され得る |
+| 2026-05-24 | 循環検証の警告を追加 | pmf-audit | E2E 検証: example repo を採点対象にすると「模範解答付き試験」になる |
+| 2026-05-24 | TTFV 8/9/10 の tiebreak 細分化 | ttfv-audit | E2E 検証: 「2つ以上」が 8 と 9 を分けられず採点者裁量に |

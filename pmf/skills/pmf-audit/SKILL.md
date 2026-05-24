@@ -43,19 +43,21 @@ PMF readiness ≈ TTFV を超えて到達する確率
 2. repo の種別を判定(CLI / library / service / security tool)。種別で各 agent の重み付けが変わる(下記)。
 3. `_workspace/` を作成。
 
-**種別による重み(合成スコア計算用):**
+**種別による重み(合成スコア計算用):** ラベルは数値に写像する — **高=2, 中=1, 低=0.5**。監査者裁量で合成スコアがブレないよう、必ずこの数値を使う。
 
 | 種別 | TTFV | Trust | Wedge |
 |------|------|-------|-------|
-| CLI / dev tool | 高 | 中 | 高 |
-| security / correctness tool | 中 | **高** | 高 |
-| library (engine) | 中 | 中 | 高 |
-| service | 高 | 中 | 中 |
+| CLI / dev tool | 高(2) | 中(1) | 高(2) |
+| security / correctness tool | 中(1) | **高(2)** | 高(2) |
+| library (engine) | 中(1) | 中(1) | 高(2) |
+| service | 高(2) | 中(1) | 中(1) |
 
 ## Phase 2: チーム編成と task 割当
 
 1. `TeamCreate` で 3 member のチームを作る: `ttfv-auditor`, `trust-calibrator`, `wedge-scoper`(全て `model: "opus"`、各 `.claude/agents/` または本 plugin の `agents/` 定義を使用)。
 2. `TaskCreate` で各 agent に「対象 repo を自分の次元で監査し `_workspace/0N_*.md` に出力」を割り当てる。3 task は並行可能(依存なし)だが、相互参照フェーズで合流する。
+
+**次元の責任境界(二重計上を防ぐ):** 「scope が広い → 誤検知面も広い」は Trust と Wedge の両方に触れる。切り分けは — **scope の広さそのもの(楔が鈍い)は Wedge の減点。広い scope が実際に FP を生んでいる証拠(誤検知の finding)があれば Trust の減点**。同じ事実を両次元で二重に引かない。
 
 ## Phase 3: 並行監査と相互参照
 
@@ -68,7 +70,13 @@ PMF readiness ≈ TTFV を超えて到達する確率
 3 つの `_workspace/0N_*.md` を読み、最終レポートを生成する:
 
 1. **3 次元スコア表**(各 0-10 + 根拠 + 各次元の最重要 finding)。
-2. **合成 PMF readiness**: 種別重みを掛けた加重幾何平均(積モデル)。最弱次元を明示。幾何平均にするのは「1つの低スコアが全体を引き下げる」積の性質を保つため。
+2. **合成 PMF readiness**: 種別重み付き幾何平均(積モデル)。式は明示的に:
+
+   ```
+   PMF = ( Π scoreᵢ^wᵢ )^(1 / Σwᵢ)      wᵢ ∈ {高=2, 中=1, 低=0.5}
+   ```
+
+   例(security tool, TTFV=9/Trust=10/Wedge=9, 重み 1/2/2): `(9¹·10²·9²)^(1/5) = 9.4`。最弱次元を明示。幾何平均にするのは「1つの低スコアが全体を引き下げる」積の性質を保つため(算術平均だと弱点が埋もれる)。
 3. **優先度付き改善提案**: Critical → Low。各提案に (a) どの次元 (b) コード位置/repo 構成 (c) 「削る/分離する/借りる」のどの動きか を付す。最弱次元の Critical/High を最上段に。
 4. **「launch して良いか」の一言判定**: 合成スコアと最弱次元から、launch 可 / 楔を絞れ / 初回体験を彫れ / 信頼設計を入れろ のいずれか。
 
@@ -94,3 +102,5 @@ PMF readiness ≈ TTFV を超えて到達する確率
 **Error path:** README も manifest も無い空 repo → ttfv-auditor が TTFV 測定不能を報告 → 該当次元 Indeterminate、他2次元は監査続行、レポートに測定不能の理由を明記。
 
 **Follow-up:** 改善 commit 後の再監査依頼 → Phase 0 が `_workspace/` 検出 → `_workspace_prev/` 退避 → 新規監査 → 前回との差分をレポート冒頭に提示。
+
+> **検証の独立性に関する警告:** 各 audit skill の `<example>` は gh-verify / libverify / parsentry を正例に使っている。これらを採点対象にすると「模範解答が印刷された試験」になり、スコアが skill 作者の事前判断をなぞっただけになる恐れがある。harness の方法論を健全に検証するなら、**example に使っていない未知の OSS** を採点せよ。example repo の高スコアは方法論の正しさの証拠にはならない。
