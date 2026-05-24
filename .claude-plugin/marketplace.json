@@ -25,6 +25,11 @@
       "name": "harness",
       "source": "./harness",
       "description": "Team-architecture factory: turn a domain description into an agent team and the skills they use"
+    },
+    {
+      "name": "pmf",
+      "source": "./pmf",
+      "description": "PMF engineering audit harness: score a dev tool / OSS on TTFV, trust, and wedge"
     }
   ]
 }
