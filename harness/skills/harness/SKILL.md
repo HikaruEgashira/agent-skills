@@ -10,7 +10,7 @@ A meta-skill that builds a harness for a domain or project: it defines each agen
 **Core principles:**
 1. Generate agent definitions (`.claude/agents/`) and skills (`.claude/skills/`).
 2. **Agent teams are the default execution mode.**
-3. **Register a harness pointer in CLAUDE.md** — record only the minimum (trigger rule + change log) so the orchestrator skill fires in new sessions.
+3. **Register a harness pointer in CLAUDE.md** — record only the trigger rule (pointer) so the orchestrator skill fires in new sessions. No change log in CLAUDE.md; the evolution log lives in the harness README.
 4. **A harness is a living system, not a fixed artifact** — after every run, fold in feedback and keep agents, skills, and CLAUDE.md current.
 
 ## Workflow
@@ -31,7 +31,7 @@ When the harness skill triggers, first establish what already exists.
    | Add agent | skip (reuse Phase 0 result) | placement only | required | if a dedicated skill is needed | edit orchestrator | required |
    | Add/edit skill | skip | skip | skip | required | if wiring changes | required |
    | Architecture change | skip | required | affected agents only | affected skills only | required | required |
-3. Cross-check the existing agent/skill inventory against the CLAUDE.md record to detect drift.
+3. Cross-check the existing agent/skill inventory against the README change log to detect drift.
 4. Summarize the audit to the user and confirm the execution plan.
 
 ### Phase 1: Domain Analysis
@@ -255,14 +255,9 @@ After building the harness, register a minimal pointer in the project's `CLAUDE.
 **Goal:** {one line — the harness's core goal}
 
 **Trigger:** for {domain} work, use the `{orchestrator-skill-name}` skill. Simple questions can be answered directly.
-
-**Change log:**
-| Date | Change | Target | Reason |
-|------|----------|------|------|
-| {YYYY-MM-DD} | initial build | all | - |
 ````
 
-**What NOT to put in CLAUDE.md:** the agent list, skill list, directory structure, or detailed execution rules. Why: the agent/skill lists live in the orchestrator skill and under `.claude/agents/`, `.claude/skills/`, so duplicating them is waste; the directory structure is visible in the filesystem. CLAUDE.md holds only the **pointer (trigger rule) + change log**.
+**What NOT to put in CLAUDE.md:** the agent list, skill list, directory structure, detailed execution rules, **or a change log**. Why: the agent/skill lists live in the orchestrator skill and under `.claude/agents/`, `.claude/skills/`, so duplicating them is waste; the directory structure is visible in the filesystem; and a change log is history noise in a file that loads every session. CLAUDE.md holds only the **pointer (trigger rule)**. The change log lives in the harness README (see Phase 7-3).
 
 #### 5-5. Support follow-up work
 
@@ -372,10 +367,10 @@ The fix target depends on the feedback type:
 
 #### 7-3. Change log
 
-Record every change in the CLAUDE.md **change log** table (same table as the Phase 5-4 template):
+Record every change in a **change-log table in the harness README** (e.g. the plugin's `README.md`), not in CLAUDE.md — CLAUDE.md loads every session and should stay free of history noise. If the harness has no README, create one for this purpose or rely on git history.
 
 ```markdown
-**Change log:**
+## Change log
 | Date | Change | Target | Reason |
 |------|----------|------|------|
 | 2026-04-05 | initial build | all | - |
@@ -405,8 +400,8 @@ Systematically inspect, fix, and sync an existing harness. Follow this when Phas
 - Add/edit/remove agents and skills per the user's request.
 - One change at a time; run Step 3 (sync) immediately after each.
 
-**Step 3: Update the CLAUDE.md change log**
-- Record date, change, target, and reason in the change-log table.
+**Step 3: Update the README change log**
+- Record date, change, target, and reason in the harness README's change-log table (not CLAUDE.md).
 
 **Step 4: Validate the change**
 - Structure-validate the edited agents/skills (Phase 6-1).
@@ -429,8 +424,8 @@ After generation, confirm:
 - [ ] SKILL.md body under 500 lines; split to references/ if over
 - [ ] execution verified with 2–3 test prompts
 - [ ] trigger validation done (should-trigger + should-NOT-trigger)
-- [ ] **harness pointer registered in CLAUDE.md** (trigger rule + change log)
-- [ ] **agent/skill add/remove/edit recorded in the CLAUDE.md change log**
+- [ ] **harness pointer registered in CLAUDE.md** (trigger rule only — no change log)
+- [ ] **agent/skill add/remove/edit recorded in the README change log** (not CLAUDE.md)
 - [ ] **context-check step in orchestrator Phase 1** (initial / follow-up / partial re-run)
 
 ## References
