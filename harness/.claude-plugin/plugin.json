@@ -1,8 +1,0 @@
-{
-  "name": "harness",
-  "version": "1.2.0",
-  "description": "Team-architecture factory: a meta-skill that turns a domain description into an agent team and the skills they use.",
-  "author": {
-    "name": "HikaruEgashira"
-  }
-}

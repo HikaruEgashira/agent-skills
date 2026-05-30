@@ -24,17 +24,7 @@
     {
       "name": "meta",
       "source": "./meta",
-      "description": "Meta skills for risk assessment, incident handling, and gap analysis"
-    },
-    {
-      "name": "harness",
-      "source": "./harness",
-      "description": "Team-architecture factory: turn a domain description into an agent team and the skills they use"
-    },
-    {
-      "name": "pmf",
-      "source": "./pmf",
-      "description": "PMF engineering audit harness: score a dev tool / OSS on TTFV, trust, and wedge"
+      "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness"
     }
   ]
 }
