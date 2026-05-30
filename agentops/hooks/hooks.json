@@ -1,0 +1,17 @@
+{
+  "description": "agentops dreaming: offline memory consolidation. The Stop-hook dispatcher detaches a background worker that REFINES (never acquires) existing memory entries. It always exits 0 quickly, never blocks the reply, and only spends model budget when new memory was acquired this session.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/dream.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

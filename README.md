@@ -10,7 +10,7 @@ Personal Claude Code / Codex plugins for PR workflow, agent operations, and harn
 |--------|--------------|
 | `wf` | Worktree → commit → PR → review-flow workflow skills |
 | `architect` | Current-PR takeover and folder-structure refactoring |
-| `agentops` | Import / migrate config between Codex and Claude Code |
+| `agentops` | Import / migrate config between Codex and Claude Code · `dreaming` offline memory refinement |
 | `meta` | Risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness |
 
 ### Skill Chain
@@ -21,12 +21,14 @@ Personal Claude Code / Codex plugins for PR workflow, agent operations, and harn
 | `commit-push-pr-flow` | After task completion | Create PR |
 | `review-flow` | After PR creation | Review PR |
 | `agent-config-import` | Codex/Claude Code 設定移行 | Import settings.json/config.toml, MCP, skills, prompts, commands |
+| `dreaming` | Stop hook 後（新規 memory 獲得時のみ自動） | 既存 memory を refine（重複統合・矛盾解消・剪定）。transcript は読まず新規獲得もしない。Claude memory を source、Codex `AGENTS.md` に mirror |
 
 ### Commands
 
 | Command | Behavior |
 |---------|----------|
 | `/import-agent-config` | Dry-run Codex/Claude Code config import plan |
+| `/dream` | Run a memory-refinement pass on demand (bypasses the new-memory gate, still refinement-only) |
 
 ## For Claude Code
 
