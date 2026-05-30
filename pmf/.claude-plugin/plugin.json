@@ -1,8 +1,0 @@
-{
-  "name": "pmf",
-  "version": "0.1.0",
-  "description": "PMF engineering audit harness: score a dev tool / OSS on TTFV, trust, and wedge",
-  "author": {
-    "name": "HikaruEgashira"
-  }
-}
