@@ -19,7 +19,7 @@
     {
       "name": "agentops",
       "source": "./agentops",
-      "description": "Import and migrate agent configuration between Codex and Claude Code"
+      "description": "Import/migrate agent configuration between Codex and Claude Code, plus dreaming offline memory refinement"
     },
     {
       "name": "meta",
