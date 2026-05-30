@@ -1,6 +1,21 @@
+# agent-skills
+
 `npx add-skill HikaruEgashira/agent-skills`
 
-#### Skill Chain
+Personal Claude Code / Codex plugins for PR workflow, agent operations, and harness engineering.
+
+## Plugins
+
+| Plugin | What it does |
+|--------|--------------|
+| `wf` | Worktree → commit → PR → review-flow workflow skills |
+| `architect` | Current-PR takeover and folder-structure refactoring |
+| `agentops` | Import / migrate config between Codex and Claude Code |
+| `meta` | Risk assessment, incident handling, and gap-analysis thinking frameworks |
+| `harness` | Team-architecture factory: turn a domain description into an agent team and the skills they use |
+| `pmf` | PMF engineering audit harness: score a dev tool / OSS on TTFV, trust, and wedge |
+
+### Skill Chain
 
 | Skill | When to use | Behavior |
 |-------|-------------| -------- |
@@ -9,21 +24,25 @@
 | `review-flow` | After PR creation | Review PR |
 | `agent-config-import` | Codex/Claude Code 設定移行 | Import settings.json/config.toml, MCP, skills, prompts, commands |
 
-#### Commands
+### Commands
 
 | Command | Behavior |
 |---------|----------|
 | `/import-agent-config` | Dry-run Codex/Claude Code config import plan |
 
-#### For Claude Code
+## For Claude Code
 
 ```bash
 claude plugin marketplace add HikaruEgashira/agent-skills
 claude plugin install wf
+claude plugin install architect
 claude plugin install agentops
+claude plugin install meta
+claude plugin install harness
+claude plugin install pmf
 ```
 
-#### For Codex
+## For Codex
 
 Codex manifests are provided in each plugin directory under `.codex-plugin/plugin.json`.
 The repo-local Codex marketplace is `.agents/plugins/marketplace.json`.
@@ -34,3 +53,9 @@ Installable Codex plugins:
 - `architect`: PR takeover and structure-refactoring skills converted from Claude commands
 - `agentops`: Codex / Claude Code configuration migration planning
 - `meta`: risk assessment, incident handling, and gap-analysis skills
+- `harness`: team-architecture factory meta-skill that generates agent teams and the skills they use
+- `pmf`: PMF engineering audit harness for dev tools / OSS
+
+## License
+
+Apache-2.0 — see [LICENSE](./LICENSE).

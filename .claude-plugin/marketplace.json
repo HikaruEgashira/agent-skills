@@ -22,6 +22,11 @@
       "description": "Import and migrate agent configuration between Codex and Claude Code"
     },
     {
+      "name": "meta",
+      "source": "./meta",
+      "description": "Meta skills for risk assessment, incident handling, and gap analysis"
+    },
+    {
       "name": "harness",
       "source": "./harness",
       "description": "Team-architecture factory: turn a domain description into an agent team and the skills they use"

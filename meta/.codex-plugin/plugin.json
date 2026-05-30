@@ -8,7 +8,7 @@
   },
   "homepage": "https://github.com/HikaruEgashira/agent-skills/tree/main/meta",
   "repository": "https://github.com/HikaruEgashira/agent-skills",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "risk",
     "incident",
