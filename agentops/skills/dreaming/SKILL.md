@@ -67,12 +67,13 @@ MEMORY.md は fingerprint から **除外**。worker 自身が毎回書き換え
 | `AGENTOPS_DREAM_DISABLE` | `0` | `1` で完全停止 (kill switch) |
 | `AGENTOPS_DREAM_MODEL` | `claude-haiku-4-5-20251001` | REM phase のモデル (安価・高速) |
 | `AGENTOPS_DREAM_MIN_INTERVAL` | `1800` | 同一メモリディレクトリの最小実行間隔 (秒) |
-| `AGENTOPS_DREAM_MAX_PER_DAY` | `12` | 1 日あたり最大実行回数 |
+| `AGENTOPS_DREAM_MAX_PER_DAY` | `8` | 1 日あたり最大実行回数 |
 | `AGENTOPS_DREAM_EVIDENCE_THRESHOLD` | `0.7` | 信頼度しきい値 (0-1) |
 | `AGENTOPS_DREAM_PROMOTE` | `apply` | `apply`=実適用 / `audit`=staging に提案のみ書き出し |
-| `AGENTOPS_DREAM_TIMEOUT` | `180` | モデル呼び出しのタイムアウト (秒) |
+| `AGENTOPS_DREAM_TIMEOUT` | `120` | モデル呼び出しのタイムアウト (秒) |
 | `AGENTOPS_DREAM_MAX_BYTES` | `60000` | working set ペイロード上限 (バイト) |
 | `AGENTOPS_DREAM_MEMORY_DIR` | (cwd 由来) | メモリディレクトリの上書き |
+| `AGENTOPS_DREAM_CLAUDE_BIN` | (自動解決) | REM phase で使う claude バイナリの明示指定 (絶対パス or PATH 上の名前)。既定解決順 `claudex`→`claude`→`~/.claude/local/claude` が未設定ラッパを掴む環境向け。解決不能なら fail-closed |
 | `AGENTOPS_DREAM_MIRROR_AGENTS` | `1` | `0` で AGENTS.md への mirror を無効化 |
 
 ロールアウト時は `AGENTOPS_DREAM_PROMOTE=audit` を推奨。実メモリを変更せず提案オペを

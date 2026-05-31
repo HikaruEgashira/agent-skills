@@ -143,6 +143,16 @@ secret_present() {
 claude_bin() {
   # robust: aliases do not load in a non-interactive hook shell.
   local b
+  # explicit override wins. Set AGENTOPS_DREAM_CLAUDE_BIN to an absolute path or a
+  # name on PATH when the default `claudex`-first resolution points at an
+  # unconfigured/non-headless wrapper. An override that resolves to nothing fails
+  # closed (no dream) rather than silently falling back to a different binary.
+  b="${AGENTOPS_DREAM_CLAUDE_BIN:-}"
+  if [ -n "$b" ]; then
+    if [ -x "$b" ]; then printf '%s' "$b"; return 0; fi
+    b=$(command -v "$b" 2>/dev/null) && { printf '%s' "$b"; return 0; }
+    return 1
+  fi
   b=$(command -v claudex 2>/dev/null) && { printf '%s' "$b"; return 0; }
   b=$(command -v claude 2>/dev/null)  && { printf '%s' "$b"; return 0; }
   if [ -x "${HOME}/.claude/local/claude" ]; then
