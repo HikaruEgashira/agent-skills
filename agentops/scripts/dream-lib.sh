@@ -173,8 +173,11 @@ timeout_bin() {
 # --------------------------------------------------------------------------
 
 sanitize_cwd() {
-  # absolute cwd -> -Users-x-p
-  printf '%s' "$1" | sed -e 's#/#-#g'
+  # absolute cwd -> Claude Code project-dir slug. Claude encodes both '/' and
+  # '.' as '-' (e.g. /U/ghq/github.com/x -> -U-ghq-github-com-x), so we MUST
+  # replace both or the derived memory dir misses every path containing a dot
+  # (github.com, *.com, version dirs) and the Stop-hook gate silently no-ops.
+  printf '%s' "$1" | sed -e 's#[/.]#-#g'
 }
 
 memory_dir_from_cwd() {

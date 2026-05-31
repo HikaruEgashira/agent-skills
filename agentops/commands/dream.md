@@ -41,24 +41,31 @@ MEMDIR="$(AGENTOPS_DREAM_MEMORY_DIR="${AGENTOPS_DREAM_MEMORY_DIR:-}" sh -c 'echo
 [ -n "$MEMDIR" ] || MEMDIR="$(memory_dir_from_cwd "$CWD")"
 if [ ! -d "$MEMDIR" ]; then echo "no memory dir at $MEMDIR — nothing to refine"; exit 0; fi
 
-STATEDIR="$(state_dir_for "$MEMDIR")"
-mkdir -p "$STATEDIR"
+STATE_DIR="$(state_dir_for "$MEMDIR")"
+mkdir -p "$STATE_DIR"
 CLAUDE_BIN="$(claude_bin)" || { echo "claude binary not found"; exit 0; }
-
-# /dream bypasses the delta gate: FOCUS = the whole store.
-DELTAF="$(mktemp)"; fingerprint "$MEMDIR" | awk -F'\t' '{print $1}' > "$DELTAF"
-NEWFP="$(mktemp)";  fingerprint "$MEMDIR" > "$NEWFP"
 
 # Mode: first arg 'audit' -> audit, else apply.
 case "$ARGUMENTS" in *audit*) export AGENTOPS_DREAM_PROMOTE=audit ;; esac
 
-export AGENTOPS_RT_MEMDIR="$MEMDIR" AGENTOPS_RT_STATEDIR="$STATEDIR" \
-       AGENTOPS_RT_CWD="$CWD" AGENTOPS_RT_CLAUDE_BIN="$CLAUDE_BIN" \
-       AGENTOPS_RT_DELTAF="$DELTAF" AGENTOPS_RT_NEWFP="$NEWFP" \
+# /dream bypasses the delta gate: FOCUS = the whole store. Write every id to the
+# active delta file the worker re-reads under the lock (TOCTOU recheck).
+LOCKDIR="$(lock_acquire "$MEMDIR")" || { echo "another dream is running (lock held)"; exit 0; }
+trap 'lock_release "$LOCKDIR"; rm -f "$RT_DELTA"' EXIT
+RT_DELTA="${STATE_DIR}/delta.active"
+fingerprint "$MEMDIR" | awk -F'\t' '{print $1}' > "$RT_DELTA"
+
+# Env var names MUST match what dream-worker.sh reads (see AGENTOPS_RT_* there).
+export AGENTOPS_RT_MEMDIR="$MEMDIR" \
+       AGENTOPS_RT_LOCKDIR="$LOCKDIR" \
+       AGENTOPS_RT_DELTA="$RT_DELTA" \
+       AGENTOPS_RT_STATE_DIR="$STATE_DIR" \
+       AGENTOPS_RT_CWD="$CWD" \
+       AGENTOPS_RT_CLAUDE_BIN="$CLAUDE_BIN" \
+       AGENTOPS_RT_SESSION_ID="manual-dream" \
        CLAUDE_PLUGIN_ROOT="$ROOT"
 
 # Run in the FOREGROUND (manual command), not detached.
-lock_acquire "$STATEDIR" || { echo "another dream is running (lock held)"; exit 0; }
 "$WORKER"
 echo "dream finished. log: ~/.claude/agentops/dream.log"
 ```

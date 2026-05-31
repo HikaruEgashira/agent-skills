@@ -52,6 +52,10 @@ entry you cannot see — prefer `flag` when unsure.
 # The work to do (for the FOCUS entries, reconciled against the rest)
 
 - Improve wording/precision; make each fact sharper and self-contained.
+- PRESERVE each entry's original language. If the body/description is written in
+  Japanese (or any non-English language), keep that language when refining — do
+  NOT translate to English. Refinement sharpens wording within the same language;
+  switching language is not a refinement and loses the author's nuance.
 - Merge duplicates / near-duplicates into one canonical entry.
 - Resolve contradictions: prefer the FOCUS (newly reasserted) entry on ties,
   else the more specific / better-evidenced wording. If neither dominates,

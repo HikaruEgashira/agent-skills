@@ -27,6 +27,7 @@ LOCKDIR="${AGENTOPS_RT_LOCKDIR:-}"
 DELTA_FILE="${AGENTOPS_RT_DELTA:-}"
 STATE_DIR="${AGENTOPS_RT_STATE_DIR:-}"
 CLAUDE_BIN="${AGENTOPS_RT_CLAUDE_BIN:-}"
+RT_CWD="${AGENTOPS_RT_CWD:-}"          # real project cwd (for AGENTS.md mirror)
 
 PROMPT_FILE="${PLUGIN_ROOT}/scripts/dream-prompt.md"
 MODEL=$(cfg_model)
@@ -773,16 +774,20 @@ memory_index_sync
 mirror_agents() {
   [ "$MIRROR" = "1" ] || return 0
   local cwd_root agents body f id name desc typ flagged blob
-  # AGENTS.md lives at the project root = the cwd whose sanitized form is in
-  # the memory path. We reconstruct cwd from the memory dir if it's the
-  # default layout; otherwise mirror is skipped (override dirs have no root).
-  cwd_root=$(printf '%s' "$MEMDIR" | sed -E "s#^${HOME}/.claude/projects/##; s#/memory\$##")
-  case "$MEMDIR" in
-    "${HOME}/.claude/projects/"*) : ;;
-    *) log "mirror: non-default memdir, skip AGENTS.md"; return 0 ;;
-  esac
-  # turn -Users-x-p back into /Users/x/p
-  cwd_root="/$(printf '%s' "$cwd_root" | sed -E 's#^-+##; s#-#/#g')"
+  # AGENTS.md lives at the project root. Prefer the real cwd passed by the
+  # caller (AGENTOPS_RT_CWD): the slug encoding '/'+'.'->'-' is lossy, so
+  # reconstructing from MEMDIR cannot distinguish github.com from github/com.
+  if [ -n "$RT_CWD" ] && [ -d "$RT_CWD" ]; then
+    cwd_root="$RT_CWD"
+  else
+    case "$MEMDIR" in
+      "${HOME}/.claude/projects/"*) : ;;
+      *) log "mirror: non-default memdir, skip AGENTS.md"; return 0 ;;
+    esac
+    # best-effort reconstruction (lossy): -Users-x-p back into /Users/x/p
+    cwd_root=$(printf '%s' "$MEMDIR" | sed -E "s#^${HOME}/.claude/projects/##; s#/memory\$##")
+    cwd_root="/$(printf '%s' "$cwd_root" | sed -E 's#^-+##; s#-#/#g')"
+  fi
   [ -d "$cwd_root" ] || { log "mirror: cwd root absent ($cwd_root) -> skip"; return 0; }
   agents="${cwd_root}/AGENTS.md"
 
