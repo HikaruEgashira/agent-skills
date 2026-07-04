@@ -1,0 +1,8 @@
+{
+  "name": "fable-guard",
+  "version": "0.1.0",
+  "description": "Auto-recover from Fable 5 no-fallback refusals: a Stop hook detects a flagged/refused turn and drives /compact + reprompt through the herdr socket API",
+  "author": {
+    "name": "HikaruEgashira"
+  }
+}

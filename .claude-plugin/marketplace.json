@@ -25,6 +25,11 @@
       "name": "meta",
       "source": "./meta",
       "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), the PMF audit harness, and the falsehood audit for AI-generated code"
+    },
+    {
+      "name": "fable-guard",
+      "source": "./fable-guard",
+      "description": "Auto-recover from Fable 5 no-fallback refusals via a Stop hook that drives /compact + reprompt through the herdr socket API"
     }
   ]
 }

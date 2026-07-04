@@ -1,0 +1,17 @@
+{
+  "description": "fable-guard: on Stop, a fast dispatcher checks the transcript for a no-fallback refusal on the last typed turn. If found (and running inside a herdr session), it detaches a background worker that runs /compact and resubmits the prompt via the herdr socket API. Always exits 0 quickly and never blocks the reply.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/refusal-dispatch.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
