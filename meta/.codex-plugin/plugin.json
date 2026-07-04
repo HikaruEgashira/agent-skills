@@ -1,7 +1,7 @@
 {
   "name": "meta",
-  "version": "3.0.0",
-  "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness.",
+  "version": "3.1.0",
+  "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), the PMF audit harness, and the falsehood audit for AI-generated code.",
   "author": {
     "name": "HikaruEgashira",
     "url": "https://github.com/HikaruEgashira"
@@ -20,13 +20,15 @@
     "orchestration",
     "pmf",
     "ttfv",
-    "false-positive"
+    "false-positive",
+    "falsehood-audit",
+    "vibecoding"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Meta Engineering",
-    "shortDescription": "Risk, incident, gap-analysis, harness factory, and PMF audit meta skills",
-    "longDescription": "Meta Engineering bundles reusable thinking frameworks and meta-skills: design risk assessment, incident response, and gap analysis before decisions become expensive; the harness — a team-architecture factory that turns a domain description into an agent team and the skills they use; and the PMF audit harness that scores a dev tool / OSS on Time-to-First-Value, trust (false-positive economics), and wedge scoping.",
+    "shortDescription": "Risk, incident, gap-analysis, harness factory, PMF audit, and falsehood audit meta skills",
+    "longDescription": "Meta Engineering bundles reusable thinking frameworks and meta-skills: design risk assessment, incident response, and gap analysis before decisions become expensive; the harness — a team-architecture factory that turns a domain description into an agent team and the skills they use; the PMF audit harness that scores a dev tool / OSS on Time-to-First-Value, trust (false-positive economics), and wedge scoping; and the falsehood audit that hunts plausible falsehoods in AI-generated (vibecoded) codebases via external ground-truth checks, independent recomputation, cross-artifact diffs, and mutation of the verification machinery itself.",
     "developerName": "HikaruEgashira",
     "category": "Coding",
     "capabilities": [
@@ -40,7 +42,8 @@
       "Run incident analysis",
       "Analyze this technical gap",
       "Build a harness for this project",
-      "Audit this OSS for PMF before launch"
+      "Audit this OSS for PMF before launch",
+      "Audit this AI-generated repo for plausible falsehoods"
     ],
     "screenshots": []
   }

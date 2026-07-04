@@ -24,7 +24,7 @@
     {
       "name": "meta",
       "source": "./meta",
-      "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness"
+      "description": "Meta-engineering skills: risk assessment, incident handling, gap analysis, the harness (agent-team factory), the PMF audit harness, and the falsehood audit for AI-generated code"
     }
   ]
 }
