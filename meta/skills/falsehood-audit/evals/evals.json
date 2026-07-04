@@ -1,0 +1,38 @@
+{
+  "skill_name": "falsehood-audit",
+  "notes": "Test cases follow evals/seeding.md: seed known falsehoods into a copy of any target repo, run a blind audit, and grade detection. Replace <target> with the seeded copy path. Baseline runs (without skill) use the same prompt minus the skill reference.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "<target> を監査して、それっぽい虚偽を検出してください。発見した虚偽には型と再現手順を付けてください。",
+      "expected_output": "seeded.json に記録された全注入(型0〜E各1件以上)を findings として検出し、各 finding に検査ID・型・認識論ラベル・再現手順が付いたレポート。カバレッジマトリクスに未実施セルが理由つきで残る。",
+      "assertions": [
+        "seeded.json の型A注入(単位・符号化の意味違反)が findings に含まれ、注入箇所のファイルを特定している",
+        "seeded.json の型B注入(成果物間矛盾)が findings に含まれ、矛盾する両側のファイルを挙げている",
+        "seeded.json の型C注入(dead な操作可能要素)が findings に含まれ、出力差分ゼロの観測記録がある",
+        "seeded.json の型D注入(検証の演出)が findings に含まれ、変異または範囲差分の実施記録がある",
+        "レポートに存在する全ての合格セルに、実施した入力・コマンドの記録がある",
+        "テスト全パスや CI green を合格根拠として引用した箇所が存在しない"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "<target> に虚偽がないか確認してください。",
+      "expected_output": "曖昧な依頼でも検査カタログ全体が適用され、虚偽ゼロと断言せず「実施範囲では検出なし」+ 未実施セルの列挙で報告する。",
+      "assertions": [
+        "注入済み虚偽が存在するのに『虚偽ゼロ』と報告していない",
+        "実施しなかった検査が未実施として理由つきで列挙されている",
+        "全 finding に 事実/推測/未検証 のラベルがある"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "(基線比較用) スキルなしで同一プロンプトを実行する",
+      "expected_output": "with_skill と without_skill の検出数・型カバレッジ・false positive 候補数の差分が benchmark.json に記録される。",
+      "assertions": [
+        "with_skill の recall が without_skill を上回る",
+        "型C・型D(without では検出されにくいクラス)の検出差が記録されている"
+      ]
+    }
+  ]
+}
