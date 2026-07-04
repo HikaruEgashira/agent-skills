@@ -11,7 +11,7 @@ Personal Claude Code / Codex plugins for PR workflow, agent operations, and harn
 | `wf` | Worktree → commit → PR → review-flow workflow skills |
 | `architect` | Current-PR takeover and folder-structure refactoring |
 | `agentops` | Import / migrate config between Codex and Claude Code · `dreaming` offline memory refinement |
-| `meta` | Risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness |
+| `meta` | Risk assessment, incident handling, gap analysis, the harness (agent-team factory), the PMF audit harness, and the falsehood audit for AI-generated code |
 
 ### Skill Chain
 
@@ -50,7 +50,7 @@ Installable Codex plugins:
 - `wf`: workflow skills for worktree, commit, PR, and review flow
 - `architect`: PR takeover and structure-refactoring skills converted from Claude commands
 - `agentops`: Codex / Claude Code configuration migration planning
-- `meta`: risk assessment, incident handling, gap analysis, the harness (agent-team factory), and the PMF audit harness
+- `meta`: risk assessment, incident handling, gap analysis, the harness (agent-team factory), the PMF audit harness, and the falsehood audit for AI-generated code
 
 ## License
 
