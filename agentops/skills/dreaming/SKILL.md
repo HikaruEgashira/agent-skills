@@ -94,6 +94,25 @@ fingerprint を進めないので同じ delta が次回も再提案される)。
 
 「迷ったら flag」が default-safe。破壊的オペは構造的に保守的です。
 
+さらに本文には **fail-closed body guard** がかかります (refinement-only の機械的強制):
+
+- `new_body` は JSON の **string 型のときだけ** 採用。`null` は「本文変更なし」の意味で、
+  文字列 "null" として書き込まれることはない
+- 提案本文が 空 / 空白のみ / リテラル "null" / 元本文の半分未満 (元が 200 bytes 以上のとき)
+  なら op を **skip し、元ファイルは byte 単位で不変** (ログにのみ記録)
+- `merge` は損失側 entry を削除するため、統合済み本文 (string の `new_body`) が無ければ skip
+- 書き込みは常に 検証 → temp ファイル → atomic rename (`atomic_write`) + 実行前 `.bak`
+
+## テスト
+
+```sh
+bash agentops/scripts/tests/dream-worker-test.sh
+```
+
+fake claude バイナリで worker を直接駆動し、「モデル出力が null / 空 / 空白 / 非JSON /
+大幅短縮のとき対象 entry が byte 単位で不変」という回帰を固定します (jq + coreutils のみ、
+ネットワーク・実モデル不要)。
+
 ## 脅威モデル要約
 
 transcript を取り込まないため、典型的な間接プロンプトインジェクション (直前に読んだ

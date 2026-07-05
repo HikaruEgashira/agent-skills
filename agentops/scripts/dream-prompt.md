@@ -119,7 +119,10 @@ high confidence (>= max(threshold, 0.85)); when in doubt use `flag`.
            is the default-safe outcome for anything uncertain.
 
 Constraints: every id in `target_ids` MUST appear in the DATA region. `relink`
-and `flag` MUST set `new_frontmatter` and `new_body` to null. Use `links` (a
+and `flag` MUST set `new_frontmatter` and `new_body` to null. `new_body: null`
+means KEEP the existing body unchanged — never emit the string "null", an empty
+string, or a body that drops existing content you were not explicitly refining
+(the applier rejects empty or drastically-shrunk bodies). Use `links` (a
 list of ids) for cross-links; the applier renders them as `Related: [[id]]`.
 Drop self-links and dangling links.
 

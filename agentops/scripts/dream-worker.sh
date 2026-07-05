@@ -408,6 +408,15 @@ write_entry() {
 
   bf=$(mktemp "${WORK}/body.XXXXXX") || return 1
   cat >"$bf"
+  # backstop: never write an empty / whitespace-only / literal-"null" body.
+  # Refinement-only means no entry ever loses its content on this path.
+  local probe_body
+  probe_body=$(tr -d '[:space:]' <"$bf" 2>/dev/null)
+  if [ -z "$probe_body" ] || [ "$probe_body" = "null" ]; then
+    log "write_entry: empty/null body rejected for $slug (original untouched)"
+    rm -f "$bf" 2>/dev/null
+    return 1
+  fi
   {
     printf -- '---\n'
     printf 'name: "%s"\n' "$nq"
@@ -541,7 +550,11 @@ EOF
       f=$(file_for_id "$t"); [ -n "$f" ] || { log "op[$((i-1))] update missing target $t"; continue; }
       new_name=$(printf '%s' "$OP" | jq -r '.new_name // empty')
       del_src=$(printf '%s' "$OP" | jq -r '.delete_source // false')
-      nb=$(printf '%s' "$OP"      | jq -r 'has("new_body")')
+      # new_body counts as provided ONLY when it is a JSON string. The schema
+      # allows "new_body": null (= keep existing body); has() is true for null
+      # and `jq -r` prints it as the literal text "null", which previously got
+      # written as the whole body. (Finding: null new_body wiped entry body.)
+      nb=$(printf '%s' "$OP"      | jq -r '.new_body | type == "string"')
       nfn=$(printf '%s' "$OP"     | jq -r '.new_frontmatter.name // empty')
       nfd=$(printf '%s' "$OP"     | jq -r '.new_frontmatter.description // empty')
       nft=$(printf '%s' "$OP"     | jq -r '.new_frontmatter.type // empty')
@@ -568,10 +581,23 @@ EOF
       typ="$nft";  [ -n "$typ" ]  || typ=$(fm_type "$f")
       fl=$(fm_flagged "$f"); [ "$fl" = "1" ] && fl=true || fl=false
 
+      # no-op guard: nothing to change (no body, no frontmatter, no rename)
+      # -> skip WITHOUT rewriting, so the file stays byte-identical.
+      if [ "$nb" != "true" ] && [ -z "${nfn}${nfd}${nft}" ] && [ "$new_slug" = "$t" ]; then
+        log "op[$((i-1))] update is a no-op (null body, no field change) -> skip"
+        continue
+      fi
+
       # body source.
       bf=$(mktemp "${WORK}/ub.XXXXXX") || continue
       if [ "$nb" = "true" ]; then
         printf '%s' "$OP" | jq -r '.new_body' >"$bf"
+        # fail-closed: reject empty/whitespace/"null"/drastically-shrunk body.
+        if ! body_guard_ok "$bf" "$f"; then
+          rm -f "$bf" 2>/dev/null
+          log "op[$((i-1))] update body guard reject (empty/null/shrunk) -> skip, $t untouched"
+          continue
+        fi
       else
         body_of "$f" >"$bf"
       fi
@@ -648,11 +674,30 @@ EOF
       desc="$nfd"; [ -n "$desc" ] || { [ -n "$sf" ] && desc=$(fm_field "$sf" description); }
       typ="$nft";  [ -n "$typ" ]  || { [ -n "$sf" ] && typ=$(fm_type "$sf") || typ="reference"; }
 
+      # a merge with no real losers is a no-op: skip without rewriting.
+      LOSERS_F="${WORK}/losers.txt"
+      sort -u "$TGT_F" 2>/dev/null | grep -vxF "$survivor" >"$LOSERS_F" 2>/dev/null
+      if ! grep -q . "$LOSERS_F" 2>/dev/null; then
+        log "op[$((i-1))] merge has no losers -> skip"
+        continue
+      fi
+
+      # a merge MUST carry the merged content as a JSON *string* new_body;
+      # "new_body": null would delete the losers while silently discarding
+      # their content (and `jq -r` would render null as a literal body).
+      # Fail closed: skip, all targets untouched.
+      if [ "$(printf '%s' "$OP" | jq -r '.new_body | type == "string"')" != "true" ]; then
+        log "op[$((i-1))] merge without string new_body -> skip, targets untouched"
+        continue
+      fi
+
       bf=$(mktemp "${WORK}/mb.XXXXXX") || continue
-      if [ "$(printf '%s' "$OP" | jq -r 'has("new_body")')" = "true" ]; then
-        printf '%s' "$OP" | jq -r '.new_body' >"$bf"
-      elif [ -n "$sf" ]; then
-        body_of "$sf" >"$bf"
+      printf '%s' "$OP" | jq -r '.new_body' >"$bf"
+      # fail-closed: reject empty/whitespace/"null"/drastically-shrunk body.
+      if [ -n "$sf" ] && ! body_guard_ok "$bf" "$sf"; then
+        rm -f "$bf" 2>/dev/null
+        log "op[$((i-1))] merge body guard reject (empty/null/shrunk) -> skip, targets untouched"
+        continue
       fi
 
       if write_entry "$name" "$desc" "$typ" "false" "$survivor" <"$bf"; then

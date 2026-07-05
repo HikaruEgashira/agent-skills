@@ -422,6 +422,31 @@ rate_record() {
 }
 
 # --------------------------------------------------------------------------
+# body refinement guard (fail-closed)
+#   The dreaming contract is REFINEMENT-ONLY: a proposed replacement body can
+#   never be null, empty, whitespace-only, or drastically smaller than the
+#   body it replaces. Reject -> caller skips the op, original file untouched.
+# (Finding: model "new_body": null was written as the literal string "null",
+#  wiping the entry body.)
+# --------------------------------------------------------------------------
+
+body_guard_ok() {
+  # body_guard_ok NEW_BODY_FILE ORIG_FILE -> rc 0 if NEW is an acceptable
+  # replacement for ORIG's body.
+  local nf="$1" of="$2" stripped ns os
+  [ -f "$nf" ] || return 1
+  stripped=$(tr -d '[:space:]' <"$nf" 2>/dev/null)
+  [ -n "$stripped" ] || return 1          # empty / whitespace-only
+  [ "$stripped" = "null" ] && return 1    # literal null leaked from JSON
+  ns=$(wc -c <"$nf" 2>/dev/null | tr -dc '0-9'); [ -n "$ns" ] || ns=0
+  os=$(body_of "$of" 2>/dev/null | wc -c | tr -dc '0-9'); [ -n "$os" ] || os=0
+  # refinement sharpens, it does not erase: if the original body is
+  # substantial, refuse a replacement smaller than half of it.
+  if [ "$os" -ge 200 ] && [ "$ns" -lt $((os / 2)) ]; then return 1; fi
+  return 0
+}
+
+# --------------------------------------------------------------------------
 # per-run backups + atomic writes
 #   Backups go to a PER-RUN dir (BACKUP_DIR), snapshotted ONCE per file, so a
 #   file touched by multiple ops keeps its true pre-run content.
